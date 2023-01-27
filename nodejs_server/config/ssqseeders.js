@@ -12,6 +12,7 @@ const createUser = async () => {
     name: "Test User",
     username: "testuser",
     role: "user",
+    isAvailable: true,
   });
   console.log(user.toJSON());
 };

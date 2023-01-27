@@ -15,7 +15,8 @@ const generateTokens = async (user) => {
       { expiresIn: "30d" }
     );
 
-    const userToken = await UserToken.findByPk(user.id);
+    const { id } = user;
+    const userToken = await UserToken.findOne({ where: { userId: id } });
     if (userToken) await userToken.remove();
 
     await new UserToken({ userId: user._id, token: refreshToken }).save();
