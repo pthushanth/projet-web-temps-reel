@@ -1,0 +1,52 @@
+version: '2'
+# Define the services/containers to be run
+services:
+  nodejs_server: # name of the NodeJS server
+    container_name: nodejs
+    image: node
+    working_dir: "/server"
+    entrypoint: 
+      - "sh"
+      - "-c"
+      - "npm install && npm install nodemon -g && nodemon server.js"
+    ports:
+      - "4000:4000" # specify the NodeJS port and open up port 4000 on docker
+    links:
+      - database_postgres # name we use for mongoDB database_mql
+    volumes: # Allows changes to local host to sync with docker container
+      - "./nodejs_server/:/server" # should be the same as your WORKDIR in your DockerFile 
+          # Don't sync the node_modules directory back to the client.
+    depends_on: # tells the database to start first before the NodeJS app
+      - database_postgres
+  
+  react_ui: # name of the react_ui
+    image: node
+    working_dir: "/app"
+    entrypoint: 
+      - "sh"
+      - "-c"
+      - "npm install && npm start"
+    ports:
+      - "3000:3000" # specify the reactJS port and open up port 4001 on docker
+    links:
+      - nodejs_server # name we use for nodeJS server  
+    volumes: # Allows changes to local host to sync with docker container
+      - "./reactjs_u/:/app" # should be the same as your WORKDIR in your DockerFile 
+          # Don't sync the node_modules directory back to the client.
+    tty: true # set tty to true in order to run reactJS in development mode
+    stdin_open: true # set stdin_open to true in order to run reactJS in development mode
+     
+    
+  database_postgres: # name of the database_postgres 
+    image: postgres:alpine 
+    ports: 
+      - "5432:5432" # specify the port and connect port 3306 to docker
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=apps
+volumes:
+  db-data: {}
+

@@ -1,0 +1,3 @@
+react_u/node_modules/*
+nodejs_server/node_modules/*
+.DS_Store
