@@ -3,6 +3,7 @@ import cors from "cors";
 import refreshTokenRoutes from "./routes/refreshToken.js";
 import { config } from "dotenv";
 import authRoutes from "./routes/auth.js";
+import discussionRoutes from "./routes/discussions.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import sequelize from "./config/database.js";
@@ -21,5 +22,8 @@ const __dirname = path.dirname(__filename);
 app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/refreshToken", refreshTokenRoutes);
+app.use("/api/discussion", discussionRoutes);
+
 // app.use("/api/user", usersRoutes);
 app.use("/api/refreshToken", refreshTokenRoutes);
