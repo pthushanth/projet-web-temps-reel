@@ -8,6 +8,13 @@ Start the server
 ```
 make start
 ```
+or
+```
+docker-compose up -d 
+cd nodejs_server 
+npx sequelize db:migrate 
+npx sequelize db:seed:all 
+```
 Restart server
 ```
 make restart
