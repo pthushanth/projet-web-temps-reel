@@ -19,6 +19,7 @@ import Topbar from "./components/topbar/Topbar";
 
 import People from "./pages/People";
 import Admin from "./Admin/Admin";
+import Discussion from "./Admin/pages/Discussion";
 
 function App() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           {/* <Route path="/admin/user/{user.id}" element={<User />} /> */}
           <Route path="/admin/users" element={<Home />} />
+          <Route path="/admin/discussions" element={<Discussion />} />
         </Route>
         <Route
           element={

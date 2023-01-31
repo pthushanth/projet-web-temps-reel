@@ -1,8 +1,8 @@
-import { User } from "./models/UserModel";
+import User from "../models/User.js";
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({ attributes: { exclude: ["password"] } });
     return res.status(200).json({
       message: "Users fetched successfully",
       data: users,
@@ -19,6 +19,7 @@ const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
+    user.password = undefined;
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -39,6 +40,10 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    //dont update password
+    if (req.body.password === undefined) {
+      delete req.body.password;
+    }
     const [updated] = await User.update(req.body, {
       where: { id },
     });

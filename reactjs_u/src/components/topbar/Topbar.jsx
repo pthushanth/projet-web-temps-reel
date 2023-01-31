@@ -13,7 +13,7 @@ export default function Topbar() {
     {user !== undefined && Object.keys(user).length > 0 && 
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <span className="logo">Mon GES</span>
+        <span className="logo">Moto</span>
       </div>
       <div className="topbarCenter">
         <div className="searchbar">
