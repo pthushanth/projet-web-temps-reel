@@ -15,6 +15,7 @@ import { loginRoute } from "../utils/ApiRoutes";
 
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Auth";
+import Navbar from "../components/navbar/Navbar";
 
 const theme = createTheme();
 
@@ -80,7 +81,9 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Navbar/>
       <Container component="main" maxWidth="xs">
+        
         <CssBaseline />
         <Box
           sx={{
@@ -162,7 +165,9 @@ export default function SignIn() {
             </Snackbar>
           )}
         </Box>
+        
       </Container>
     </ThemeProvider>
+    
   );
 }

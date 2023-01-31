@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
-  BrowserRouter,
+  
   Routes,
   Route,
   Link,
@@ -61,6 +61,8 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+
         <Route
           element={
             <ProtectedRoute
@@ -82,7 +84,6 @@ function App() {
             />
           }
         >
-          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/chat" element={<Chat />} />
