@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createDiscussion,
   deleteDiscussion,
+  getAllMessagesByDiscussionId,
   getDiscussionById,
   getDiscussions,
   updateDiscussion,
@@ -14,6 +15,9 @@ router.get("/", auth, getDiscussions);
 router.get("/:id", auth, getDiscussionById);
 router.post("/", auth, createDiscussion);
 router.put("/:id", auth, updateDiscussion);
+router.patch("/:id", auth, updateDiscussion);
 router.delete("/:id", auth, deleteDiscussion);
+
+router.get("/messages", auth, getAllMessagesByDiscussionId);
 
 export default router;

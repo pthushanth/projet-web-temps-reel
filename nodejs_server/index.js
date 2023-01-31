@@ -24,7 +24,7 @@ app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/refreshToken", refreshTokenRoutes);
-app.use("/api/discussion", discussionRoutes);
+app.use("/api/discussions", discussionRoutes);
 
 app.use("/api/user", userRoutes);
 app.use("/api/refreshToken", refreshTokenRoutes);

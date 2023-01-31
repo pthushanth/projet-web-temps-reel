@@ -1,5 +1,6 @@
 import Discussion from "../models/Discussion.js";
 import { adminCheck } from "../middlewares/roleCheck.js";
+import User from "../models/User.js";
 
 const getDiscussions = async (req, res) => {
   try {
@@ -40,7 +41,7 @@ const createDiscussion = async (req, res) => {
     return;
   }
 
-  const { type, name, capacity, invitedUserId } = req.body;
+  const { type, name, capacity } = req.body;
 
   try {
     const discussion = await Discussion.create({
@@ -51,6 +52,10 @@ const createDiscussion = async (req, res) => {
     });
 
     const user = await User.findByPk(req.user.id);
+    console.log("----------------------------------");
+    console.log(await User.findByPk(req.user.id));
+    console.log(user);
+    console.log("----------------------------------");
     await user.addDiscussion(discussion);
 
     if (type === "private") {
@@ -75,7 +80,10 @@ const updateDiscussion = async (req, res) => {
     if (!discussion) {
       return res.status(404).send("Discussion not found");
     }
-    await discussion.update(req.body);
+    await discussion.update({
+      name: req.body.name,
+      capacity: req.body.capacity,
+    });
     res.json(discussion);
   } catch (err) {
     res.status(500).send(err);
@@ -85,17 +93,8 @@ const updateDiscussion = async (req, res) => {
 const deleteDiscussion = async (req, res) => {
   try {
     const { id } = req.params;
-    const [updated] = await Discussion.update(req.body, {
-      where: { id },
-    });
-    if (!updated) {
-      return res.status(404).json({ error: "Discussion not found" });
-    }
     const discussion = await Discussion.findByPk(id);
-    if (req.user.role !== "admin" && discussion.createdBy !== req.user.id) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
-    return res.status(200).json(discussion);
+    await discussion.destroy();
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -130,10 +129,32 @@ const createPrivateDiscussion = async (req, res) => {
   }
 };
 
+const getAllMessagesByDiscussionId = async (req, res) => {
+  try {
+    const user = req.user;
+    const discussion = await Discussion.findByPk(req.params.id);
+    if (!discussion) {
+      return res.status(404).send("Discussion not found");
+    }
+
+    if (user.role !== "admin" && !(await user.hasDiscussion(discussion))) {
+      return res.status(403).send("Access denied");
+    }
+
+    const messages = await discussion.getMessages({
+      include: [{ model: User, as: "sender" }],
+    });
+    res.json(messages);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 export {
   getDiscussions,
   getDiscussionById,
   createDiscussion,
   updateDiscussion,
   deleteDiscussion,
+  getAllMessagesByDiscussionId,
 };

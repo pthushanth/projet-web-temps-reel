@@ -32,4 +32,8 @@ const User = sequelize.define("user", {
   },
 });
 
+User.associate = function (models) {
+  User.hasMany(Message, { foreignKey: "senderId" });
+};
+
 export default User;
