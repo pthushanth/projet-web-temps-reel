@@ -18,6 +18,6 @@ router.put("/:id", auth, updateDiscussion);
 router.patch("/:id", auth, updateDiscussion);
 router.delete("/:id", auth, deleteDiscussion);
 
-router.get("/messages", auth, getAllMessagesByDiscussionId);
+router.get("/:id/messages", auth, getAllMessagesByDiscussionId);
 
 export default router;

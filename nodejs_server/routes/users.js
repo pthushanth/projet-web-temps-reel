@@ -16,7 +16,7 @@ const router = Router();
 // router.put("/test/:id", auth, upload.single("profile_pic"), updateUser);
 // router.delete("/:id", auth, deleteUser);
 
-router.get("/allusers", getUsers);
+router.get("/allusers", auth, getUsers);
 router.get("/:id", getUserById);
 // router.put("/test/:id", upload.single("profile_pic"), updateUser);
 router.delete("/:id", deleteUser);
