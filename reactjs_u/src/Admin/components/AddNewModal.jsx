@@ -18,7 +18,7 @@ export const AddNewModal = ({ open, columns, onClose, onSubmit }) => {
   
     return (
       <Dialog open={open}>
-        <DialogTitle textAlign="center">Create New Account</DialogTitle>
+        <DialogTitle textAlign="center">Create New</DialogTitle>
         <DialogContent>
           <form onSubmit={(e) => e.preventDefault()}>
             <Stack
