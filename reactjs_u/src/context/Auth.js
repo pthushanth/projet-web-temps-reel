@@ -32,6 +32,7 @@ const AuthProvider = (props) => {
     setUser(null);
     setToken(null);
     setIsLoading(false);
+    navigate("/login");
   };
 
   const loginRequest = async (username, password) => {
@@ -59,11 +60,12 @@ const AuthProvider = (props) => {
       );
       setUser(response.user);
       setToken(response.accessToken);
-      console.log(response.user.roles.includes("admin"));
-      if (response.user.roles.includes("admin")) {
+      console.log(response.user);
+      if (response.user.role === "admin") {
         navigate("/admin");
+      } else {
+        navigate("/dashbaord");
       }
-      navigate("/");
     } else {
       setError(response.message);
     }

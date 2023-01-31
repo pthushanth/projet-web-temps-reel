@@ -2,6 +2,15 @@ const host = "http://localhost:4000";
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`;
 export const getAllUsersRoute = `${host}/api/user/allUsers`;
+export const deleteUserRoute = `${host}/api/user/deleteUser`;
+
+export const createDiscussionRoute = `${host}/api/discussion/createDiscussion`;
+export const getAllDiscussionsRoute = `${host}/api/discussion/allDiscussions`;
+export const getDiscussionByIdRoute = `${host}/api/discussion`;
+export const updateDiscussionRoute = `${host}/api/discussion/updateDiscussion`;
+export const deleteDiscussionRoute = `${host}/api/discussion/deleteDiscussion`;
+
+/**************************************************** */
 export const getAllMessagesRoute = `${host}/api/messages/allMessages`;
 export const sendMessageRoute = `${host}/api/messages/addMessage`;
 

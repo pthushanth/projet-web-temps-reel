@@ -39,7 +39,7 @@ export default function Topbar() {
             <span className="topbarIconBadge">2</span>
           </div>
           <div className="topbarIconItem">
-          <MyNotifications />
+          {/* <MyNotifications /> */}
           </div>
         </div>
         <CustomAvatar name={user.username} />
