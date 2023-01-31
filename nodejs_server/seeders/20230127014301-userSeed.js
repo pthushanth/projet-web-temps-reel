@@ -7,19 +7,6 @@ module.exports = {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const plainTextPassword = "password";
     const hashedPassword = await bcrypt.hash(plainTextPassword, salt);
-    for (let i = 1; i < 9; i += 1) {
-      const user = {
-        email: `user${i}@test.com`,
-        password: hashedPassword,
-        name: `User ${i}`,
-        username: `user${i}`,
-        role: "user",
-        isAvailable: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      users.push(user);
-    }
 
     const admin = {
       email: "admin@test.com",
@@ -31,6 +18,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+
+    users.push(admin);
     await queryInterface.bulkInsert("users", users, {});
   },
 

@@ -1,5 +1,5 @@
-import { adminCheck } from "../middlewares/roleCheck";
-import Discussion from "../models/Discussion";
+import Discussion from "../models/Discussion.js";
+import { adminCheck } from "../middlewares/roleCheck.js";
 
 const getDiscussions = async (req, res) => {
   try {

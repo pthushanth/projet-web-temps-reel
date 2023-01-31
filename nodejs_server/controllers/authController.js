@@ -86,6 +86,6 @@ export const login = async (req, res, next) => {
 
     return res.status(200).json({ user, accessToken, refreshToken });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };

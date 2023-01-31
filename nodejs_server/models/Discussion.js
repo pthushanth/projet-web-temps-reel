@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 
+import sequelize from "../config/database.js";
+import User from "./User.js";
 const Discussion = sequelize.define("discussion", {
   type: {
     type: Sequelize.ENUM("private", "room"),
@@ -36,3 +38,5 @@ const Discussion = sequelize.define("discussion", {
 
 User.belongsToMany(Discussion, { through: "Participation" });
 Discussion.belongsToMany(User, { through: "Participation" });
+
+export default Discussion;

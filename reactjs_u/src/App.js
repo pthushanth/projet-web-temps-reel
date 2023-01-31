@@ -16,12 +16,9 @@ import Register from "./pages/Register";
 import { AuthContext } from "./context/Auth";
 import ProtectedRoute from "./components/PrivateRoute";
 import Topbar from "./components/topbar/Topbar";
-import axios from "axios";
-import { getAllUsersRoute } from "./utils/ApiRoutes";
+
 import People from "./pages/People";
 import Admin from "./Admin/Admin";
-import User from "./Admin/pages/user/User";
-import UserList from "./Admin/pages/userList/UserList";
 
 function App() {
   const location = useLocation();
@@ -31,7 +28,7 @@ function App() {
 
   useEffect(() => {
     if (user && location.pathname === "/login") {
-      user.roles.includes("admin") ? navigate("/admin") : navigate("/");
+      user.role === "admin" ? navigate("/admin") : navigate("/dashboard");
     }
   }, [token, user, location.pathname]);
 
@@ -67,19 +64,19 @@ function App() {
           element={
             <ProtectedRoute
               isAuthLoading={isLoading}
-              isAllowed={user && user.roles && user.roles.includes("admin")}
+              isAllowed={user && user.role === "admin"}
             />
           }
         >
           <Route path="/admin" element={<Admin />} />
           {/* <Route path="/admin/user/{user.id}" element={<User />} /> */}
-          <Route path="/admin/users" element={<UserList />} />
+          <Route path="/admin/users" element={<Home />} />
         </Route>
         <Route
           element={
             <ProtectedRoute
               isAuthLoading={isLoading}
-              isAllowed={user && user.roles && user.roles.includes("user")}
+              isAllowed={user && user.role === "user"}
             />
           }
         >
@@ -88,7 +85,6 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/persons" element={<People />} />
-          
         </Route>
       </Routes>
     </>
