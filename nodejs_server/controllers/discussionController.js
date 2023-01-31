@@ -150,6 +150,33 @@ const getAllMessagesByDiscussionId = async (req, res) => {
   }
 };
 
+const checkDiscussion = async (req, res) => {
+  try {
+    const currentUserId = req.user.id;
+    const inviteeId = req.params.id;
+    const discussion = await Discussion.findOne({
+      where: {
+        [Op.or]: [
+          {
+            userId: currentUserId,
+            inviteeId: inviteeId,
+          },
+          {
+            userId: inviteeId,
+            inviteeId: currentUserId,
+          },
+        ],
+      },
+    });
+    if (!discussion) {
+      return res.status(404).send("Discussion not found");
+    }
+    return res.status(200).json(discussion);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 export {
   getDiscussions,
   getDiscussionById,
@@ -157,4 +184,5 @@ export {
   updateDiscussion,
   deleteDiscussion,
   getAllMessagesByDiscussionId,
+  checkDiscussion,
 };

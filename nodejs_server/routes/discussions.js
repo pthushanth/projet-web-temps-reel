@@ -6,6 +6,7 @@ import {
   getDiscussionById,
   getDiscussions,
   updateDiscussion,
+  checkDiscussion,
 } from "../controllers/discussionController.js";
 import auth from "../middlewares/auth.js";
 
@@ -19,5 +20,6 @@ router.patch("/:id", auth, updateDiscussion);
 router.delete("/:id", auth, deleteDiscussion);
 
 router.get("/:id/messages", auth, getAllMessagesByDiscussionId);
+router.get("/user/id", auth, checkDiscussion);
 
 export default router;

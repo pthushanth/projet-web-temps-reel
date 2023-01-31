@@ -27,6 +27,7 @@ const classes = {
 export default function ChatBox({ currentChat }) {
   const { token, user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [discussion, setDiscussion] = useState([]);
 
   const [createNewDiscussion, setCreateNewDiscussion] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -54,10 +55,22 @@ export default function ChatBox({ currentChat }) {
   useEffect(() => {
     setIsLoading(true);
 
-    const getMessages = async () => {
+    const hasDisuccsion = axios.get(discussionRoute + `/user/${currentChat.id}`).then((response) => {
+      if (response.status === 200) {
+        setDiscussion(response.data);
+        return response.data;
+      }
+    }).catch((error) => {
+      console.log(error);
+      if(error.response.status === 404){
+      return false;
+      }
+    });
+
+    const getMessages = async (discussionId) => {
       let messages;
 
-      axios.get(getAllMessagesRoute + `/${currentChat.id}/messages`
+      axios.get(getAllMessagesRoute + `/${discussionId}/messages`
           ).then((response) => {
             if ( response.status=== 200) {
               messages = response.data.messages;
@@ -65,23 +78,25 @@ export default function ChatBox({ currentChat }) {
             return messages;
           }).catch((error) => {
             console.log(error);
-            if (error.response.status === 404){
-              messages = [];
-              setCreateNewDiscussion(true);
-            }
-          });
+          })
     };
 
-    getMessages().then((res) => {
-      setIsLoading(false);
-      if (res.length > 0) {
-      setMessages(res);
+    hasDisuccsion.then((res) => {
+      console.log("test",res);
+      if (res) {
+        console.log("test2",res);
+        getMessages(discussion.id).then((res) => {
+          setIsLoading(false);
+          setMessages(res);
+        });
       } else {
-        setMessages([]);
+        setIsLoading(false);
+        setCreateNewDiscussion(true);
       }
-
     });
-  }, [setMessages, currentChat, user, token]);
+
+    
+  }, [setMessages, currentChat, user, token, setDiscussion, setCreateNewDiscussion]);
 
   const handleStartNewDiscussion = async() => {
     await axios.post(discussionRoute, {
@@ -89,8 +104,15 @@ export default function ChatBox({ currentChat }) {
        name: "New Discussion",
        invitee: currentChat.id,
       })
+      .then((response) => {
+        console.log(response);
+        setDiscussion(response.data);
+        setCreateNewDiscussion(false);
 
-    setCreateNewDiscussion(false);
+      }).catch((error) => {
+        console.log(error);
+      });
+
 
   };
 
