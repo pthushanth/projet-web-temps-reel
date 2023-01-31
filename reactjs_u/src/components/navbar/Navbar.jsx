@@ -34,6 +34,8 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href="/"><Button style={{color :"white"}} activeStyle={{ color: 'red' }}>Moto</Button></Link>
           </Typography>
+          
+          <Link href="/chatbot"><Button style={style} activeStyle={{ color: 'red' }}>ChatBot</Button></Link>
           {isauth && (
             <><Link href="/profile"><Button style={style} activeStyle={{ color: 'red' }}>Profile</Button></Link></>
             )}

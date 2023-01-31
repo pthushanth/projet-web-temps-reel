@@ -19,6 +19,7 @@ import Topbar from "./components/topbar/Topbar";
 
 import People from "./pages/People";
 import Admin from "./Admin/Admin";
+import ChatBot from "./components/chatbot/ChatBot";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
+        <Route path="/chatbot" element={<ChatBot />} />
 
         <Route
           element={
@@ -82,6 +84,7 @@ function App() {
             />
           }
         >
+          
           <Route path="/home" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/chat" element={<Chat />} />
