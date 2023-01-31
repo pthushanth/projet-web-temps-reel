@@ -13,7 +13,6 @@ export const discussionRoute = `${host}/api/discussions`;
 
 /**************************************************** */
 export const getAllMessagesRoute = `${host}/api/discussions`;
-export const sendMessageRoute = `${host}/api/messages/addMessage`;
 
 export const getUserByIdRoute = `${host}/api/user`;
 export const updateUserRoute = `${host}/api/user/test`;

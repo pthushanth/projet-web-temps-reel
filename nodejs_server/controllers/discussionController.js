@@ -35,9 +35,10 @@ const getDiscussionById = async (req, res) => {
 };
 
 const createDiscussion = async (req, res) => {
-  const admin = await adminCheck(req, res);
-  if (!admin) {
-    createPrivateDiscussion(req, res);
+  if (req.user.role !== "admin") {
+    return createPrivateDiscussion(req, res);
+  }
+  if (res.headersSent) {
     return;
   }
 
@@ -68,6 +69,7 @@ const createDiscussion = async (req, res) => {
           .send("Invited user is required for private discussions");
       }
     }
+
     return res.status(201).send(discussion);
   } catch (error) {
     return res.status(500).send(error.message);
@@ -102,7 +104,7 @@ const deleteDiscussion = async (req, res) => {
 
 /******************************** */
 const createPrivateDiscussion = async (req, res) => {
-  const { name, invitedUserId } = req.body;
+  const { name, inviteeId } = req.body;
   const createdBy = req.user.id;
   try {
     const discussion = await Discussion.create({
@@ -111,13 +113,18 @@ const createPrivateDiscussion = async (req, res) => {
       capacity: 2,
       createdBy,
     });
-    await Participation.create({
-      userId: createdBy,
-      discussionId: discussion.id,
+
+    const user = await User.findByPk(createdBy);
+    const invitedUser = await User.findByPk(inviteeId);
+
+    console.log("user", user);
+    console.log("invitedUser", invitedUser);
+
+    await User.findByPk(createdBy).then((user) => {
+      user.addDiscussion(discussion);
     });
-    await Participation.create({
-      userId: invitedUserId,
-      discussionId: discussion.id,
+    await User.findByPk(inviteeId).then((user) => {
+      user.addDiscussion(discussion);
     });
     return res.status(201).json({
       discussion,

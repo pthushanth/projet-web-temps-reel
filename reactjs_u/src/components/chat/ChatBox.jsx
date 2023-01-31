@@ -34,9 +34,8 @@ export default function ChatBox({ currentChat }) {
 
   const handleSendMessage = async (msg) => {
     await axios.post(
-      sendMessageRoute,
+      discussionRoute + `/${discussion.id}/messages`,
       {
-        to: currentChat._id,
         message: msg,
       },
       {
@@ -56,12 +55,14 @@ export default function ChatBox({ currentChat }) {
     setIsLoading(true);
 
     const hasDisuccsion = axios.get(discussionRoute + `/user/${currentChat.id}`).then((response) => {
+      console.log("test rep",response);
       if (response.status === 200) {
         setDiscussion(response.data);
+        console.log("200",response.data);
         return response.data;
       }
     }).catch((error) => {
-      console.log(error);
+      console.log(error.response);
       if(error.response.status === 404){
       return false;
       }
@@ -102,7 +103,7 @@ export default function ChatBox({ currentChat }) {
     await axios.post(discussionRoute, {
        type: "private",
        name: "New Discussion",
-       invitee: currentChat.id,
+       inviteeId: currentChat.id,
       })
       .then((response) => {
         console.log(response);
