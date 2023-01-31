@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Alert, Snackbar } from '@mui/material';
 import { registerRoute } from '../utils/ApiRoutes';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/navbar/Navbar';
 
 const theme = createTheme();
 
@@ -122,6 +123,8 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
+            <Navbar/>
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
